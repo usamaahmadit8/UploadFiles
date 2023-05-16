@@ -8,7 +8,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.develerstech.uploadfiles"
+        applicationId "com.develers.uploadfiles"
         minSdk 25
         targetSdk 33
         versionCode 1
@@ -66,4 +66,5 @@ dependencies {
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
+
 }
