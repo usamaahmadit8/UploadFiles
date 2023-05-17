@@ -51,8 +51,6 @@ public class FileUploadTask extends AsyncTask<Void, Integer, Void> {
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-
-
     }
 
     @Override
@@ -114,7 +112,13 @@ public class FileUploadTask extends AsyncTask<Void, Integer, Void> {
                         bufferedReader.close();
                         inputStream.close();
                         urlConnection.disconnect();
-
+                        if(mNotificationId==2) {
+                            if (file.exists()) {
+                                if (file.delete()) {
+                                  //  System.out.println("File deleted successfully");
+                                }
+                            }
+                        }
                         Log.d("FileUploadTask", "File " + fileName + " uploaded to server with response: " + response.toString());
                         mUploadedCount++;
 
