@@ -60,7 +60,7 @@ afterEvaluate {
 
                 groupId = 'com.github.usamaahmadit8'
                 artifactId = 'UploadFiles'
-                version = '1.4'
+                version = '1.5'
                 from components.release
             }
         }

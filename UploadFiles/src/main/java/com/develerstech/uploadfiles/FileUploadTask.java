@@ -39,12 +39,12 @@ public class FileUploadTask extends AsyncTask<Void, Integer, Void> {
         mDirectory = directory;
         mServerUrl = serverUrl;
         mNotificationId = notificationId;
-//        mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-//        mNotificationBuilder = new NotificationCompat.Builder(mContext, "chanel_id")
-//                .setContentTitle("Uploading Files")
-//                .setSmallIcon(android.R.drawable.ic_menu_upload)
-//                .setOngoing(true)
-//                .setProgress(0, 0, true);
+        mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationBuilder = new NotificationCompat.Builder(mContext, "chanel_id")
+                .setContentTitle("Uploading Files")
+                .setSmallIcon(android.R.drawable.ic_menu_upload)
+                .setOngoing(true)
+                .setProgress(0, 0, true);
         progressDialog=new ProgressDialog(context);
         progressDialog.setTitle("uploading Images 0/"+String.valueOf(directory.listFiles().length));
         progressDialog.setMessage("Uploading Images");
@@ -135,21 +135,22 @@ public class FileUploadTask extends AsyncTask<Void, Integer, Void> {
     @Override
     protected void onProgressUpdate(Integer... values) {
         int progress = values[0];
-//        mNotificationBuilder.setProgress(100, progress, false)
-//                .setContentText(String.format(Locale.getDefault(), "Uploading file %d of %d", mUploadedCount + 1, mFileCount));
-//        mNotificationManager.notify(mNotificationId, mNotificationBuilder.build());
+        mNotificationBuilder.setProgress(100, progress, false)
+                .setContentText(String.format(Locale.getDefault(), "Uploading file %d of %d", mUploadedCount + 1, mFileCount));
+        mNotificationManager.notify(mNotificationId, mNotificationBuilder.build());
         progressDialog.setTitle(String.format(Locale.getDefault(),"uploading Images %d/"+String.valueOf(mDirectory.listFiles().length),mUploadedCount));
 
     }
 
     @Override
     protected void onPostExecute(Void aVoid) {
-//        mNotificationBuilder.setProgress(0, 0, false)
-//                .setContentText("File upload complete");
-//        mNotificationManager.notify(mNotificationId, mNotificationBuilder.build());
+        mNotificationBuilder.setProgress(0, 0, false)
+                .setContentText("File upload complete");
+        mNotificationManager.notify(mNotificationId, mNotificationBuilder.build());
         progressDialog.setMessage("File upload complete");
         progressDialog.dismiss();
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle("FILE UPLOADING COMPLETE");
         builder.setMessage("All "+String.valueOf(mUploadedCount)+" files have been uploaded")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
