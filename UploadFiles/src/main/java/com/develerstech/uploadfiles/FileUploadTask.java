@@ -7,6 +7,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Environment;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
@@ -20,6 +22,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.Locale;
 
 public class FileUploadTask extends AsyncTask<Void, Integer, Void> {
@@ -55,6 +59,11 @@ public class FileUploadTask extends AsyncTask<Void, Integer, Void> {
 
     @Override
     protected Void doInBackground(Void... voids) {
+        File directory = new File(mDirectory, "uploaded");
+        // If the directory doesn't exist, create it
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
         File[] files = mDirectory.listFiles();
         if (files != null) {
             mFileCount = files.length;
@@ -64,6 +73,7 @@ public class FileUploadTask extends AsyncTask<Void, Integer, Void> {
                 }
                 File file = files[i];
                 if (file.isFile()) {
+
                     try {
                         FileInputStream fileInputStream = new FileInputStream(file);
                         String fileName = file.getName();
@@ -117,6 +127,11 @@ public class FileUploadTask extends AsyncTask<Void, Integer, Void> {
                                 if (file.delete()) {
                                   //  System.out.println("File deleted successfully");
                                 }
+                            }
+                        }
+                        if(mNotificationId==1){
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                Files.move(file.toPath(), directory.toPath().resolve(file.getName()), StandardCopyOption.REPLACE_EXISTING);
                             }
                         }
                         Log.d("FileUploadTask", "File " + fileName + " uploaded to server with response: " + response.toString());
